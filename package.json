@@ -2,7 +2,6 @@
   "version": "0.0.1",
   "name": "@vsdbmv2/mapping-library",
   "umd:name": "@vsdbmv2/mapping-library",
-  "repository": "@vsdbmv2/mapping-library",
   "description": "VSDBMv2 mapping methods",
   "unpkg": "dist/index.min.js",
   "module": "dist/index.mjs",
@@ -10,6 +9,14 @@
   "types": "types/@types/index.d.ts",
   "source": "src/index.ts",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "directory": "@vsdbmv2/mapping-library",
+    "url": "https://github.com/vsdbmv2/mapping-library"
+  },
   "author": {
     "name": "vsdbmv2",
     "email": "heltonfabio@outlook.com",
