@@ -1,18 +1,18 @@
 {
-  "version": "0.0.0",
-  "name": "TODO",
-  "umd:name": "TODO",
-  "repository": "TODO_USERNAME/TODO_REPO",
-  "description": "TODO_MODULE_DESCRIPTION",
+  "version": "0.0.1",
+  "name": "@vsdbmv2/mapping-library",
+  "umd:name": "@vsdbmv2/mapping-library",
+  "repository": "@vsdbmv2/mapping-library",
+  "description": "VSDBMv2 mapping methods",
   "unpkg": "dist/index.min.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "license": "MIT",
   "author": {
-    "name": "TODO_YOUR_NAME",
-    "email": "YOUR_EMAIL@TODO.com",
-    "url": "https://TODO_WEBSITE.com"
+    "name": "vsdbmv2",
+    "email": "heltonfabio@outlook.com",
+    "url": "https://vsdbm.bahia.fiocruz.br"
   },
   "files": [
     "dist",
@@ -26,26 +26,38 @@
     "./package.json": "./package.json"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && mv language dist/",
     "prepublishOnly": "npm run build",
     "types": "tsc --noEmit",
-    "test": "uvu -r tsm test"
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint --cache --fix \"src/**/*.{ts,js,json}\" ."
   },
   "keywords": [
-    "TODO",
     "module",
-    "keywords"
+    "node"
   ],
   "devDependencies": {
     "@rollup/plugin-node-resolve": "13.1.3",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^17.0.35",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^28.1.0",
+    "prettier": "^2.6.2",
     "rollup": "2.66.1",
     "rollup-plugin-terser": "7.0.2",
     "rollup-plugin-typescript2": "0.27.1",
+    "ts-jest": "^28.0.2",
+    "ts-node": "^10.8.0",
     "tsm": "2.2.1",
-    "typescript": "4.5.5",
-    "uvu": "0.5.3"
+    "typescript": "^4.6.4"
   }
 }
