@@ -4,18 +4,22 @@ import { terser } from "rollup-plugin-terser";
 import pkg from "./package.json";
 
 export default {
-	input: "src/index.ts",
+	input: pkg.source,
 	output: [
 		{
+			name: pkg["umd:name"] || pkg.name,
 			format: "esm",
 			file: pkg.module,
 			sourcemap: false,
+			exports: "named",
 		},
 		{
+			name: pkg["umd:name"] || pkg.name,
 			format: "cjs",
 			file: pkg.main,
 			sourcemap: false,
 			esModule: false,
+			exports: "named",
 		},
 		{
 			name: pkg["umd:name"] || pkg.name,
@@ -24,15 +28,15 @@ export default {
 			sourcemap: false,
 			esModule: false,
 			plugins: [terser()],
+			exports: "named",
 		},
 	],
-	external: [
-		...require("module").builtinModules,
-		...Object.keys(pkg.dependencies || {}),
-		...Object.keys(pkg.peerDependencies || {}),
-	],
+	external: [...require("module").builtinModules, ...Object.keys(pkg.dependencies || {})],
 	plugins: [
-		resolve(),
+		resolve({
+			modulesOnly: true,
+			browser: true,
+		}),
 		typescript({
 			useTsconfigDeclarationDir: true,
 		}),

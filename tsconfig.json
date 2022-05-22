@@ -14,7 +14,7 @@
     "target": "esnext",
     "module": "esnext",
     "declaration": true,
-    "declarationDir": "@types",
+    "declarationDir": "types",
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "strictNullChecks": true,
