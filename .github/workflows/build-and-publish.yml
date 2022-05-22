@@ -1,0 +1,95 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  install:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - name: Cache Dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache miss
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: yarn install
+
+  validation:
+    runs-on: ubuntu-18.04
+    needs: install
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
+      - name: Lint
+        run: yarn lint
+      - name: Unit test
+        run: yarn test
+
+  publish:
+    runs-on: ubuntu-18.04
+    needs: validation
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+          always-auth: true
+          registry-url: https://npm.pkg.github.com
+          scope: "@vsdbmv2"
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
+      - name: Running Build
+        run: yarn build
+      - name: Configure NPMRC
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PERSONAL_TOKEN }}" > ~/.npmrc
+          echo "@vsdbmv2:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+      - name: Publish Package
+        run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-18.04
+    needs: publish
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: v${{ steps.package-version.outputs.current-version}}
+          release_name: v${{ steps.package-version.outputs.current-version}}
+          body: |
+            Changes in this Release
+            - ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false
