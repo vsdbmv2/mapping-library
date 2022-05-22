@@ -1,12 +1,12 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4",
   "name": "@vsdbmv2/mapping-library",
   "umd:name": "@vsdbmv2/mapping-library",
   "description": "VSDBMv2 mapping methods",
   "unpkg": "dist/index.min.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
-  "types": "types/@types/index.d.ts",
+  "types": "types/src/index.d.ts",
   "source": "src/index.ts",
   "license": "MIT",
   "publishConfig": {
