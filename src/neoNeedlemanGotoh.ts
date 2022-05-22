@@ -13,8 +13,8 @@ const process = (
 	Ge: number
 ) => {
 	pointers[0] = 0;
-	let m = rowString.length + 1;
-	let n = columnString.length + 1;
+	const m = rowString.length + 1;
+	const n = columnString.length + 1;
 
 	// Initializes the boundaries of the traceBack matrix.
 	// mat[x][y][1] =  0 - STOP
@@ -31,15 +31,15 @@ const process = (
 		lengths[j] = j;
 	}
 
-	let v = Array(n).fill(0);
+	const v = Array(n).fill(0);
 	let vDiagonal = 0; // Float.NEGATIVE_INFINITY; // best score in cell
 	let f = Number.NEGATIVE_INFINITY; // score from diagonal
 	let h = Number.NEGATIVE_INFINITY; // best score ending with gap from
 	// left
-	let g = Array(n).fill(Number.NEGATIVE_INFINITY); // best score ending with gap from above
+	const g = Array(n).fill(Number.NEGATIVE_INFINITY); // best score ending with gap from above
 
 	let lengthOfHorizontalGap = 0;
-	let lengthOfVerticalGap: any[] = [];
+	const lengthOfVerticalGap: any[] = [];
 
 	let similarityScore;
 	let maximumScore = Number.NEGATIVE_INFINITY;
@@ -116,10 +116,10 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 	let als2 = s2;
 
 	// maximum length after the aligned sequences
-	let maxLength = s1.length + s2.length;
+	const maxLength = s1.length + s2.length;
 
-	let reversed1 = new Array(maxLength); // reversed sequence #1
-	let reversed2 = new Array(maxLength); // reversed sequence #2
+	const reversed1 = new Array(maxLength); // reversed sequence #1
+	const reversed2 = new Array(maxLength); // reversed sequence #2
 
 	let len1 = 0; // length of sequence #1 after alignment
 	let len2 = 0; // length of sequence #2 after alignment
@@ -128,7 +128,7 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 
 	let i = rowa; // traceBack start row
 	let j = cola; // traceBack start col
-	let n = s2.length + 1;
+	const n = s2.length + 1;
 	let row = i * n;
 
 	let a = s1.length - 1;
@@ -163,7 +163,7 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 	// traceBack flag, where true => continue and false => stop
 	let stillGoing = true;
 	while (stillGoing) {
-		let l = row + j;
+		const l = row + j;
 		//console.log(row + ' - ' + pointers[l] + ' - ' + lengths[l]);
 		switch (pointers[l]) {
 			case 3:
@@ -197,8 +197,8 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 
 	als1 = reverse_text(reversed1);
 	als2 = reverse_text(reversed2);
-	let to = getTo(als1, als2);
-	let from = getFrom(als2);
+	const to = getTo(als1, als2);
+	const from = getFrom(als2);
 
 	return {
 		als1,
@@ -254,19 +254,19 @@ export const computeGlobalAlignment: TcomputeGlobalAlignment = (
 	}
 	temp = undefined;
 
-	let seq_ref_length = referenceSequence.length + 1;
-	let seq_align_length = sequenceToAlign.length + 1;
+	const seq_ref_length = referenceSequence.length + 1;
+	const seq_align_length = sequenceToAlign.length + 1;
 	const size_array = seq_ref_length * seq_align_length;
-	let pointers = new Int8Array(size_array); //int8 array
-	let lengths = new Int8Array(size_array); // int8 array
+	const pointers = new Int8Array(size_array); //int8 array
+	const lengths = new Int8Array(size_array); // int8 array
 
-	let processing_result = process(referenceSequence, sequenceToAlign, pointers, lengths, Match, MissMatch, Gap, Ge);
+	const processing_result = process(referenceSequence, sequenceToAlign, pointers, lengths, Match, MissMatch, Gap, Ge);
 
-	let { maxi, maxj } = processing_result;
+	const { maxi, maxj } = processing_result;
 
-	let traceBack_result = traceBack(referenceSequence, sequenceToAlign, maxi, maxj, pointers, lengths);
+	const traceBack_result = traceBack(referenceSequence, sequenceToAlign, maxi, maxj, pointers, lengths);
 
-	let coverage: number = ((traceBack_result.to - traceBack_result.from) * 100) / referenceSequence.length;
+	const coverage: number = ((traceBack_result.to - traceBack_result.from) * 100) / referenceSequence.length;
 
 	return {
 		idSequence,

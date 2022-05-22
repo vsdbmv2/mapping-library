@@ -5,7 +5,7 @@ import * as path from "path";
 const { refSeq, query } = JSON.parse(fs.readFileSync(path.resolve(__dirname, "mock.json"), "utf-8"));
 
 describe("Suite test for neo Needleman and Gotoh", () => {
-	let scoreTest: number = 0;
+	let scoreTest = 0;
 	test("should work", () => {
 		const map = neoNeedlemanGotoh(refSeq, query);
 		expect(map).not.toBeUndefined();

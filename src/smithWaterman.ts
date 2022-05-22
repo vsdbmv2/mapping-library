@@ -71,7 +71,7 @@ export const computeLocalAlignment = (referenceSequence: string, querySequence: 
 	const currentLine = new Array(query.length).fill(0);
 
 	//Compute the optimal alignment
-	let score = computeSmWat(reference, query, Ge, Go, Mt, Mst, currentLine, lastLine);
+	const score = computeSmWat(reference, query, Ge, Go, Mt, Mst, currentLine, lastLine);
 	return { alignment_score: score };
 };
 
