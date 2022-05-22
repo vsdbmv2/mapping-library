@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2",
+  "version": "0.0.3",
   "name": "@vsdbmv2/mapping-library",
   "umd:name": "@vsdbmv2/mapping-library",
   "description": "VSDBMv2 mapping methods",
@@ -43,7 +43,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
-    "lint:fix": "eslint --cache --fix \"src/**/*.{ts,js,json}\" ."
+    "lint:fix": "eslint --cache --fix \"src/**/*.{ts,js}\" ."
   },
   "keywords": [
     "module",
