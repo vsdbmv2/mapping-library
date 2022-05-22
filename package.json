@@ -1,5 +1,5 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.5",
   "name": "@vsdbmv2/mapping-library",
   "umd:name": "@vsdbmv2/mapping-library",
   "description": "VSDBMv2 mapping methods",

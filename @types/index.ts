@@ -21,3 +21,26 @@ export type TcomputeGlobalAlignment = (
 	sequenceToAlign: string | string[],
 	idSequence?: number
 ) => IPayloadGlobalAlignment;
+
+export type workType = "global-mapping" | "local-mapping" | "epitope-mapping";
+export type workStatus = "TODO" | "ALOCATED" | "DONE";
+
+export interface IWork {
+	status: workStatus;
+	type: workType;
+	id1: number;
+	id2?: number;
+	sequence1: string;
+	sequence2?: string;
+	epitopes: string[];
+	next: IWork | undefined;
+	workerId: string | undefined;
+	payload?: IPayloadGlobalAlignment | IPayloadLocalAlignment | IPayloadEpitopeMap;
+	identifier: string;
+	startTime: number;
+	endTime: number;
+	alocate: (worker_id: string) => IWork[];
+	dealocate: () => void;
+	demand: () => void;
+	done: () => void;
+}
