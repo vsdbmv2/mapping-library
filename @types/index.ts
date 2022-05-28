@@ -16,7 +16,7 @@ export type IPayloadGlobalAlignment = Omit<IPayloadGeneric, "alignment_score" | 
 export type IPayloadLocalAlignment = Pick<IPayloadGeneric, "alignment_score">;
 export type IPayloadEpitopeMap = Pick<IPayloadGeneric, "epitope_maps">;
 
-export type TcomputeGlobalAlignment = (
+export type TComputeGlobalAlignment = (
 	referenceSequence: string | string[],
 	sequenceToAlign: string | string[],
 	idSequence?: number
@@ -32,15 +32,15 @@ export interface IWork {
 	id2?: number;
 	sequence1: string;
 	sequence2?: string;
-	epitopes: string[];
+	epitopes?: string[];
 	next: IWork | undefined;
 	workerId: string | undefined;
 	payload?: IPayloadGlobalAlignment | IPayloadLocalAlignment | IPayloadEpitopeMap;
 	identifier: string;
 	startTime: number;
 	endTime: number;
-	alocate: (worker_id: string) => IWork[];
-	dealocate: () => void;
+	allocate: (worker_id: string) => IWork[];
+	deallocate: () => void;
 	demand: () => void;
 	done: () => void;
 }

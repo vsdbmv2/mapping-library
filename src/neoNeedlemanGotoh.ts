@@ -1,6 +1,6 @@
 "use strict";
 
-import { IPayloadGlobalAlignment, TcomputeGlobalAlignment } from "../@types";
+import { IPayloadGlobalAlignment, TComputeGlobalAlignment } from "../@types";
 
 const process = (
 	rowString: string,
@@ -230,7 +230,7 @@ const reverse_text = (text: string | string[]): string => {
 	return text.split("").reverse().join("");
 };
 
-export const computeGlobalAlignment: TcomputeGlobalAlignment = (
+export const computeGlobalAlignment: TComputeGlobalAlignment = (
 	referenceSequence: string | string[],
 	sequenceToAlign: string | string[],
 	idSequence?: number
