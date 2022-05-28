@@ -23,7 +23,7 @@ export type TComputeGlobalAlignment = (
 ) => IPayloadGlobalAlignment;
 
 export type workType = "global-mapping" | "local-mapping" | "epitope-mapping";
-export type workStatus = "TODO" | "ALOCATED" | "DONE";
+export type workStatus = "TODO" | "ALLOCATED" | "DONE";
 
 export interface IWork {
 	status: workStatus;
