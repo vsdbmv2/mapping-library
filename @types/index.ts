@@ -39,7 +39,7 @@ export interface IWork {
 	identifier: string;
 	startTime: number;
 	endTime: number;
-	allocate: (worker_id: string) => IWork[];
+	allocate: (worker_id: string) => IWork[] | void;
 	deallocate: () => void;
 	demand: () => void;
 	done: () => void;
