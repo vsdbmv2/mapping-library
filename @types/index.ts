@@ -32,7 +32,7 @@ export interface IWork {
 	id2?: number;
 	sequence1: string;
 	sequence2?: string;
-	epitopes?: string[];
+	epitopes: string[];
 	next: IWork | undefined;
 	workerId: string | undefined;
 	payload?: IPayloadGlobalAlignment | IPayloadLocalAlignment | IPayloadEpitopeMap;
