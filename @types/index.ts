@@ -30,6 +30,7 @@ export interface IWork {
 	type: workType;
 	id1: number;
 	id2?: number;
+	organism: string;
 	sequence1: string;
 	sequence2?: string;
 	epitopes: string[];
