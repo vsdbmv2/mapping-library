@@ -11,6 +11,7 @@ export interface IPayloadGeneric {
 	epitope_maps: IEpitopeMap[];
 	idSequence?: number;
 	idSubtype?: number;
+	organism?: string;
 }
 
 export type IPayloadGlobalAlignment = Omit<IPayloadGeneric, "alignment_score" | "epitope_maps" | "idSubtype">;
