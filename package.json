@@ -24,7 +24,7 @@
   },
   "files": [
     "dist",
-    "types/@types/index.d.ts"
+    "index.d.ts"
   ],
   "exports": {
     ".": {
@@ -34,10 +34,11 @@
     "./package.json": "./package.json"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20"
   },
   "scripts": {
     "build": "rollup -c",
+    "postbuild": "cp types/@types/index.d.ts .",
     "prepublishOnly": "npm run build",
     "types": "tsc --noEmit",
     "test": "jest",
