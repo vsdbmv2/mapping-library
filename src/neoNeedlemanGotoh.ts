@@ -1,7 +1,6 @@
 "use strict";
 
 import { IPayloadGlobalAlignment, TComputeGlobalAlignment } from "../@types";
-
 const process = (
 	rowString: string,
 	columnString: string,
@@ -92,10 +91,10 @@ const process = (
 			// mat[x][y][1] = 3 - LEFT
 			if (v[j] == f) {
 				pointers[l] = 2;
-			} else if (v[j] == g[j]) {
+			} else if (v[j] == g[j] && v[j]) {
 				pointers[l] = 3;
 				lengths[l] = lengthOfVerticalGap[j];
-			} else if (v[j] == h) {
+			} else if (v[j] == h && v[j]) {
 				pointers[l] = 1;
 				lengths[l] = lengthOfHorizontalGap;
 			}
@@ -111,12 +110,9 @@ const process = (
 	return { maxi, maxj, score: v[n - 1] };
 };
 
-const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers: Int8Array, lengths: Int8Array) => {
-	let als1 = s1;
-	let als2 = s2;
-
+const traceBack = (als1: string, als2: string, rowa: number, cola: number, pointers: Int8Array, lengths: Int8Array) => {
 	// maximum length after the aligned sequences
-	const maxLength = s1.length + s2.length;
+	const maxLength = als1.length + als2.length;
 
 	const reversed1 = new Array(maxLength); // reversed sequence #1
 	const reversed2 = new Array(maxLength); // reversed sequence #2
@@ -128,20 +124,20 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 
 	let i = rowa; // traceBack start row
 	let j = cola; // traceBack start col
-	const n = s2.length + 1;
+	const n = als2.length + 1;
 	let row = i * n;
 
-	let a = s1.length - 1;
-	let b = s2.length - 1;
+	let a = als1.length - 1;
+	let b = als2.length - 1;
 
 	if (a - i > b - j) {
 		for (; a - i > b - j; a--) {
-			reversed1[len1++] = s1[a];
+			reversed1[len1++] = als1[a];
 			reversed2[len2++] = "-";
 		}
 		for (; b > j - 1; a--, b--) {
-			c1 = s1[a];
-			c2 = s2[b];
+			c1 = als1[a];
+			c2 = als2[b];
 
 			reversed1[len1++] = c1;
 			reversed2[len2++] = c2;
@@ -185,6 +181,7 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 				row -= n;
 				break;
 			case 1:
+				if ((lengths[l] || -1) < 0 && row <= 0) stillGoing = false;
 				for (let k = 0; k < lengths[l]; k++) {
 					reversed1[len1++] = "-";
 					reversed2[len2++] = als2[--j];
@@ -197,7 +194,7 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 
 	als1 = reverse_text(reversed1);
 	als2 = reverse_text(reversed2);
-	const to = getTo(als1, als2);
+	const to = getTo(als1, als2) + 1;
 	const from = getFrom(als2);
 
 	return {
@@ -210,18 +207,13 @@ const traceBack = (s1: string, s2: string, rowa: number, cola: number, pointers:
 
 const getFrom = (als2: string): number => {
 	let position = 0;
-	while (position < als2.length) {
-		if (als2[position] == "-") position++;
-		else break;
-	}
+	while (position < als2.length && als2[position] === "-") position++;
 	return position;
 };
 
 const getTo = (als1: string, als2: string): number => {
 	let position = als1.length - 1;
-	while (als2[position] === "-" && position > 0) {
-		position--;
-	}
+	while (als2[position] === "-" && position > 0) position--;
 	return position;
 };
 
@@ -245,14 +237,10 @@ export const computeGlobalAlignment: TComputeGlobalAlignment = (
 	const MissMatch = -3; //missMatch
 	const Gap = 5; // gap
 	const Ge = 2; // ?
-	let temp;
 	//swap
 	if (referenceSequence.length < sequenceToAlign.length) {
-		temp = sequenceToAlign;
-		sequenceToAlign = referenceSequence;
-		referenceSequence = temp;
+		[sequenceToAlign, referenceSequence] = [referenceSequence, sequenceToAlign];
 	}
-	temp = undefined;
 
 	const seq_ref_length = referenceSequence.length + 1;
 	const seq_align_length = sequenceToAlign.length + 1;

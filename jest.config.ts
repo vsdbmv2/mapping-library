@@ -5,5 +5,6 @@ const config: Config.InitialOptions = {
 	preset: "ts-jest",
 	testEnvironment: "node",
 	verbose: true,
+	maxWorkers: "90%",
 };
 export default config;
