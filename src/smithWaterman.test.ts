@@ -1,10 +1,5 @@
 import { smithWaterman } from ".";
-import * as fs from "fs";
-import * as path from "path";
-
-const sequences: { refSeq: string; query: string; organism: string }[] = JSON.parse(
-	fs.readFileSync(path.resolve(__dirname, "mock.json"), "utf-8")
-);
+import sequences from "./sequences.mock";
 
 sequences.forEach(({ refSeq, query, organism }) => {
 	describe(`Suite test for smith waterman (local alignment) - ${organism}`, () => {

@@ -1,5 +1,5 @@
 import { neoNeedlemanGotoh } from ".";
-import sequences from "./neoNeedlemanGotoh.mock";
+import sequences from "./sequences.mock";
 
 sequences.forEach(({ refSeq, query, organism }) => {
 	describe(`Suite test for smith waterman (global alignment) - ${organism}`, () => {
