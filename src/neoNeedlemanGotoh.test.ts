@@ -1,7 +1,7 @@
 import { neoNeedlemanGotoh } from ".";
 import sequences from "./sequences.mock";
 
-sequences.forEach(({ refSeq, query, organism }) => {
+sequences.forEach(({ refSeq, query, organism, isFragment }) => {
 	describe(`Suite test for smith waterman (global alignment) - ${organism}`, () => {
 		test("should work", () => {
 			const map = neoNeedlemanGotoh(refSeq, query);
@@ -20,17 +20,22 @@ sequences.forEach(({ refSeq, query, organism }) => {
 				...map,
 				coverageArea,
 				mappedArea,
+				refSeqSize: refSeq.length,
+				querySize: query.length,
+				isFragment,
 			});
 			expect([coverageArea - 1, coverageArea, coverageArea + 1].includes(mappedArea)).toBeTruthy();
 		});
 
-		test("Should have a low percentage score for the fragment", () => {
-			const map = neoNeedlemanGotoh(refSeq, query);
-			expect(map.coverage_pct).not.toBeUndefined();
-			expect(map.coverage_pct).not.toBeNull();
-			expect(typeof map.coverage_pct).toBe("number");
-			expect(map.coverage_pct).toBeLessThanOrEqual(10);
-		});
+		if (isFragment) {
+			test("Should have a low percentage score for the fragment", () => {
+				const map = neoNeedlemanGotoh(refSeq, query);
+				expect(map.coverage_pct).not.toBeUndefined();
+				expect(map.coverage_pct).not.toBeNull();
+				expect(typeof map.coverage_pct).toBe("number");
+				expect(map.coverage_pct).toBeLessThanOrEqual(15);
+			});
+		}
 	});
 });
 

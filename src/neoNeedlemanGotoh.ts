@@ -182,6 +182,7 @@ const traceBack = (als1: string, als2: string, rowa: number, cola: number, point
 				break;
 			case 1:
 				if ((lengths[l] || -1) < 0 && row <= 0) stillGoing = false;
+				else if ((lengths[l] || -1) < 0) lengths[l] = 1;
 				for (let k = 0; k < lengths[l]; k++) {
 					reversed1[len1++] = "-";
 					reversed2[len2++] = als2[--j];
